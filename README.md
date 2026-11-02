@@ -14,4 +14,4 @@
 
 见 [贡献说明](CONTRIBUTING.md)。GitHub Actions只运行离线测试，不操作设备。本机配置、签名、游戏截图及历史运行记录均不随仓库分发。
 
-本仓库暂未指定开源许可证。
+本项目采用 [MIT 许可证](LICENSE)，允许使用、修改、商业使用和再分发；须保留原版权声明及许可证文本。建议在衍生项目中注明来源：[fishing_script_ipad](https://github.com/tiantongwang001/fishing_script_ipad)，来源链接是推荐署名方式，不是额外许可条件。

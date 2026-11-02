@@ -7,6 +7,7 @@ name = "fishing-ipad-probe"
 version = "0.1.0"
 description = "Safe Appium XCUITest real-iPad connection and touch probes"
 requires-python = ">=3.11"
+license = {file = "LICENSE"}
 dependencies = [
   "Appium-Python-Client>=5,<7",
   "selenium>=4.20,<5",
