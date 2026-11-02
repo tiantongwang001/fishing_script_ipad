@@ -1,0 +1,76 @@
+{
+  "schema": 1,
+  "name": "one_round_fixed_timing_unarmed_example",
+  "logical_size": [
+    1366,
+    1024
+  ],
+  "request_timeout_seconds": 15,
+  "settings": {
+    "cycles": 1,
+    "max_elapsed_seconds": 90,
+    "initial_delay_seconds": 0.8,
+    "next_cycle_delay_seconds": 0,
+    "hook_wait_seconds": 8.1,
+    "hook_settle_seconds": 0,
+    "reel_pulses": 10,
+    "reel_release_seconds": 0.05,
+    "result_wait_seconds": 2,
+    "sell_to_continue_seconds": 0.6,
+    "final_wait_seconds": 0.6,
+    "confirm_to_sell_seconds": 0.6
+  },
+  "actions": {
+    "cast": {
+      "x": null,
+      "y": null,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    },
+    "hook": {
+      "x": null,
+      "y": null,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    },
+    "reel_upper": {
+      "x": null,
+      "y": null,
+      "press_seconds": 0.5,
+      "manually_verified": false
+    },
+    "sell": {
+      "x": null,
+      "y": null,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    },
+    "continue": {
+      "x": null,
+      "y": null,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    },
+    "confirm_popup": {
+      "x": null,
+      "y": null,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    }
+  },
+  "reference_notes": {
+    "execution_ready": false,
+    "coordinates": "Replace nulls only with measured and user-approved logical iPad coordinates; Android pixels are not interchangeable.",
+    "reel_mapping": "Upper half retrieves; lower half holds and is not used in this recipe.",
+    "android_acrs_raw": {
+      "duration": 500,
+      "delay": 3,
+      "count": 6,
+      "units_verified": false
+    },
+    "requested_reel_count": "User requested 10. Fixed mode attempts all 10 unless a bounded stop/error interrupts it; no early catch detection.",
+    "timing": "8.1-second hook wait and all converted durations are provisional. Native RPC overhead adds delay; this is not a frame-perfect Android replay. initial_delay runs once; next_cycle_delay=0 adds no pause after Continue before the next CAST; final_wait runs only after the last cycle.",
+    "sale": "Sell/Continue are fixed timed presses at calibrated points, with no label recognition. Permission for actual scope must already exist.",
+    "popups": "Optional fixed confirm_popup runs once after result_wait, without image recognition. Fill only a user-approved, verified point. This example is unarmed."
+  }
+}

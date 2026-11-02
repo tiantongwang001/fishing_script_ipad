@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fishing-ipad-probe"
+version = "0.1.0"
+description = "Safe Appium XCUITest real-iPad connection and touch probes"
+requires-python = ">=3.11"
+dependencies = [
+  "Appium-Python-Client>=5,<7",
+  "selenium>=4.20,<5",
+  "Pillow>=10,<13",
+]
+
+[project.scripts]
+fishing-probe = "fishing_probe.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

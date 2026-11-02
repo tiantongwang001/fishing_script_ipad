@@ -1,0 +1,202 @@
+{
+  "schema": 1,
+  "name": "ipad_one_round_draft",
+  "logical_size": [
+    1366,
+    1024
+  ],
+  "screenshot_size": [
+    2732,
+    2048
+  ],
+  "settings": {
+    "max_cycles": 1,
+    "max_elapsed_seconds": 90,
+    "max_reel_pulses": 10,
+    "poll_seconds": 0.2,
+    "reel_press_seconds": 0.5,
+    "reel_release_seconds": 0.05,
+    "max_popup_actions": 0,
+    "max_observations": 300,
+    "finish_result_confirmation": true,
+    "sell_catches": true
+  },
+  "actions": {
+    "cast": {
+      "x": 1127,
+      "y": 787,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    },
+    "hook": {
+      "x": 1127,
+      "y": 787,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    },
+    "reel_upper": {
+      "x": 1161,
+      "y": 759,
+      "press_seconds": 0.5,
+      "manually_verified": false
+    },
+    "continue": {
+      "x": 1233,
+      "y": 838,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    },
+    "sell": {
+      "x": 1233,
+      "y": 838,
+      "press_seconds": 0.1,
+      "manually_verified": false
+    }
+  },
+  "calibration": {
+    "manually_verified": false,
+    "logical_size": [
+      1366,
+      1024
+    ],
+    "screenshot_size": [
+      2732,
+      2048
+    ],
+    "orientation": "landscape",
+    "templates": [
+      {
+        "state": "cast_ready",
+        "reference": "runs/20261102_140318_971666/before.png",
+        "regions": [
+          [
+            1090,
+            764,
+            78,
+            48
+          ]
+        ],
+        "max_error": 0.03,
+        "manually_verified": false
+      },
+      {
+        "state": "waiting_bite",
+        "reference": "runs/manual_video/frame_008.000.jpg",
+        "regions": [
+          [
+            1090,
+            764,
+            78,
+            48
+          ]
+        ],
+        "max_error": 0.03,
+        "manually_verified": false
+      },
+      {
+        "state": "bite",
+        "reference": "",
+        "regions": [],
+        "max_error": 0.03,
+        "manually_verified": false
+      },
+      {
+        "state": "reeling",
+        "reference": "runs/manual_video/frame_011.000.jpg",
+        "regions": [
+          [
+            1090,
+            905,
+            130,
+            45
+          ]
+        ],
+        "max_error": 0.03,
+        "manually_verified": false
+      },
+      {
+        "state": "result",
+        "reference": "runs/calibration/result.png",
+        "regions": [
+          [
+            1155,
+            800,
+            150,
+            72
+          ]
+        ],
+        "max_error": 0.03,
+        "manually_verified": false,
+        "continue_label_verified": false
+      },
+      {
+        "state": "sale_offer",
+        "reference": "runs/manual_video/frame_016.500.jpg",
+        "regions": [
+          [
+            1155,
+            800,
+            150,
+            72
+          ]
+        ],
+        "max_error": 0.03,
+        "manually_verified": false,
+        "sell_label_verified": false
+      },
+      {
+        "state": "sale_pending",
+        "reference": "runs/manual_video/frame_016.900.jpg",
+        "regions": [
+          [
+            1155,
+            800,
+            150,
+            72
+          ]
+        ],
+        "max_error": 0.03,
+        "manually_verified": false
+      },
+      {
+        "state": "landing",
+        "reference": "runs/manual_video/frame_014.500.jpg",
+        "regions": [],
+        "max_error": 0.03,
+        "manually_verified": false
+      }
+    ],
+    "bite_trigger_verified": false,
+    "bite_trigger_evidence": "Manual video shows a short bobber cue. Ordinary screenshot median 0.707s; read-only WDA MJPEG probe measured unique frames at median 0.122s, but live cue and capture-to-hook latency remain unverified."
+  },
+  "reference_notes": {
+    "execution_ready": false,
+    "coordinates_source": "Manual video, normalized to measured iPad window; not yet approved or tested at these points",
+    "video_size": [
+      1280,
+      958
+    ],
+    "video_scale_is_approximate": true,
+    "user_reel_mapping": {
+      "upper_half": "rolling/retrieving",
+      "lower_half": "hold"
+    },
+    "unused_lower_hold_candidate": [
+      1161,
+      893
+    ],
+    "android_reel_raw": {
+      "duration": 500,
+      "delay": 3,
+      "count": 6,
+      "unit_verified": false
+    },
+    "provisional_reel_release_seconds": 0.05,
+    "max_reel_pulses_note": "User requested default10 after reviewing Android count6; stop earlier when landing/result observed. Exact live touch plan not yet approved.",
+    "sale_policy": "User explicitly permits automatically selling fish caught in this round; live execution and all exact coordinates still require separate approval",
+    "bite_recognition": "HIT button alone is not a bite. Isolated phase-gated detector reproduces the reference clip, but native calibration, capture-to-hook latency and runner integration are NOT_RUN.",
+    "reference_resolution": "Video frames differ from actual screenshots; current strict matcher intentionally rejects these draft references until calibrated.",
+    "random_popups": "No sample from manual video; unknown popup stops, no guessed confirmation.",
+    "release_timing": "Configured release is a minimum; screenshot and Appium latency extend actual gap."
+  }
+}

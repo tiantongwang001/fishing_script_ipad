@@ -1,0 +1,10 @@
+{
+  "udid": "",
+  "appium_url": "http://127.0.0.1:4723",
+  "wda_mode": "xcode",
+  "wda_bundle_id": "",
+  "game_bundle_id": "",
+  "expected_ipados": "",
+  "derived_data_path": "",
+  "wda_bundle_id_suffix": null
+}

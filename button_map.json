@@ -1,0 +1,1362 @@
+{
+  "schema": 1,
+  "logical_size": [
+    1366,
+    1024
+  ],
+  "native_screenshot_size": [
+    2732,
+    2048
+  ],
+  "native_pixels_per_point": 2,
+  "bounds_format": "[left, top, right, bottom], inclusive logical points; native-pixel bounds are exactly 2x logical bounds",
+  "scope": "All identifiable framed/icon controls in the seven recorded fishing states; unseen menus and other popup types are NOT_RUN. Decorative gauges, currencies and fish illustrations are not assumed to be buttons. Repair controls from three user screenshots (10 recorded states total).",
+  "limitations": [
+    "Visible envelopes have approximately +/-6 point manual uncertainty; actual game hit regions are not known.",
+    "Whole reel overlaps CAST/HIT and result-right buttons by >=80% of the smaller envelope. These are explicit heavy-overlap exceptions; CAST/HIT vs result-right are NOT exempt.",
+    "A point outside button envelopes may still operate the rod during waiting/fighting. Confirm is scheduled only after reeling/result_wait, never between CAST and HIT; a fixed schedule cannot prove the game reached its result state."
+  ],
+  "sources": {
+    "cast_ready": "runs/20261102_151634_053324/frame_0205.jpg",
+    "waiting_bite": "runs/20261102_154654_815312/frame_00247.jpg",
+    "reeling": "runs/20261102_154654_815312/frame_00621.jpg",
+    "result_sale": "runs/20261102_154654_815312/frame_00323.jpg",
+    "result_continue": "runs/20261102_155455_222978/after.png",
+    "failed": "runs/20261102_145416_959238/before.png",
+    "buff_popup": "runs/20261102_155148_158433/before.png",
+    "repair_entry": "runs/repair_reference/repair_entry.png",
+    "repair_all": "runs/repair_reference/repair_all.png",
+    "repair_done": "runs/repair_reference/repair_done.png"
+  },
+  "controls": [
+    {
+      "id": "mail",
+      "label": "收件箱",
+      "states": [
+        "cast_ready",
+        "result_sale",
+        "result_continue",
+        "failed",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        767,
+        0,
+        860,
+        90
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1534,
+        0,
+        1720,
+        180
+      ],
+      "center_logical": [
+        813.5,
+        45.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "shop",
+      "label": "道具商店",
+      "states": [
+        "cast_ready",
+        "result_sale",
+        "result_continue",
+        "failed",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        864,
+        0,
+        953,
+        90
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1728,
+        0,
+        1906,
+        180
+      ],
+      "center_logical": [
+        908.5,
+        45.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "missions",
+      "label": "任务",
+      "states": [
+        "cast_ready",
+        "result_sale",
+        "result_continue",
+        "failed",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        960,
+        0,
+        1045,
+        90
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1920,
+        0,
+        2090,
+        180
+      ],
+      "center_logical": [
+        1002.5,
+        45.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "character",
+      "label": "角色",
+      "states": [
+        "cast_ready",
+        "result_sale",
+        "result_continue",
+        "failed",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1075,
+        0,
+        1153,
+        90
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2150,
+        0,
+        2306,
+        180
+      ],
+      "center_logical": [
+        1114.0,
+        45.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "menu",
+      "label": "菜单",
+      "states": [
+        "cast_ready",
+        "result_sale",
+        "result_continue",
+        "failed",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1180,
+        0,
+        1265,
+        90
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2360,
+        0,
+        2530,
+        180
+      ],
+      "center_logical": [
+        1222.5,
+        45.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "back_top",
+      "label": "返回",
+      "states": [
+        "cast_ready",
+        "result_sale",
+        "result_continue",
+        "failed",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1270,
+        0,
+        1365,
+        90
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2540,
+        0,
+        2730,
+        180
+      ],
+      "center_logical": [
+        1317.5,
+        45.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "bait",
+      "label": "更换鱼饵",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        7,
+        98,
+        105,
+        217
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        14,
+        196,
+        210,
+        434
+      ],
+      "center_logical": [
+        56.0,
+        157.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "rod",
+      "label": "更换钓竿",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        108,
+        98,
+        208,
+        217
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        216,
+        196,
+        416,
+        434
+      ],
+      "center_logical": [
+        158.0,
+        157.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "float",
+      "label": "变更浮标",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        209,
+        98,
+        311,
+        217
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        418,
+        196,
+        622,
+        434
+      ],
+      "center_logical": [
+        260.0,
+        157.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "reel_equipment",
+      "label": "变更收线器",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        313,
+        98,
+        415,
+        217
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        626,
+        196,
+        830,
+        434
+      ],
+      "center_logical": [
+        364.0,
+        157.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "equipment_previous",
+      "label": "装备前页箭头",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        422,
+        99,
+        458,
+        214
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        844,
+        198,
+        916,
+        428
+      ],
+      "center_logical": [
+        440.0,
+        156.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "equipment_next",
+      "label": "装备后页箭头",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1112,
+        100,
+        1149,
+        211
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2224,
+        200,
+        2298,
+        422
+      ],
+      "center_logical": [
+        1130.5,
+        155.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "species",
+      "label": "出现鱼种",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1157,
+        98,
+        1258,
+        217
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2314,
+        196,
+        2516,
+        434
+      ],
+      "center_logical": [
+        1207.5,
+        157.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "lunchbox",
+      "label": "使用盒食",
+      "states": [
+        "cast_ready"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1261,
+        98,
+        1365,
+        217
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2522,
+        196,
+        2730,
+        434
+      ],
+      "center_logical": [
+        1313.0,
+        157.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "skill_idle_1",
+      "label": "左侧能力1",
+      "states": [
+        "cast_ready",
+        "waiting_bite"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        5,
+        423,
+        119,
+        534
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        10,
+        846,
+        238,
+        1068
+      ],
+      "center_logical": [
+        62.0,
+        478.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        57.0,
+        55.5
+      ]
+    },
+    {
+      "id": "skill_idle_2",
+      "label": "左侧能力2",
+      "states": [
+        "cast_ready",
+        "waiting_bite"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        5,
+        540,
+        119,
+        651
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        10,
+        1080,
+        238,
+        1302
+      ],
+      "center_logical": [
+        62.0,
+        595.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        57.0,
+        55.5
+      ]
+    },
+    {
+      "id": "skill_idle_3",
+      "label": "左侧能力3",
+      "states": [
+        "cast_ready",
+        "waiting_bite"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        5,
+        652,
+        119,
+        765
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        10,
+        1304,
+        238,
+        1530
+      ],
+      "center_logical": [
+        62.0,
+        708.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        57.0,
+        56.5
+      ]
+    },
+    {
+      "id": "skill_fight_1",
+      "label": "战斗左侧能力1",
+      "states": [
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        0,
+        338,
+        112,
+        457
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        0,
+        676,
+        224,
+        914
+      ],
+      "center_logical": [
+        56.0,
+        397.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        56.0,
+        59.5
+      ]
+    },
+    {
+      "id": "skill_fight_2",
+      "label": "战斗左侧能力2",
+      "states": [
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        0,
+        486,
+        112,
+        606
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        0,
+        972,
+        224,
+        1212
+      ],
+      "center_logical": [
+        56.0,
+        546.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        56.0,
+        60.0
+      ]
+    },
+    {
+      "id": "skill_fight_3",
+      "label": "战斗左侧能力3",
+      "states": [
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        0,
+        633,
+        112,
+        753
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        0,
+        1266,
+        224,
+        1506
+      ],
+      "center_logical": [
+        56.0,
+        693.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        56.0,
+        60.0
+      ]
+    },
+    {
+      "id": "cast_hit",
+      "label": "CAST / HIT",
+      "states": [
+        "cast_ready",
+        "waiting_bite"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        1025,
+        687,
+        1231,
+        894
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2050,
+        1374,
+        2462,
+        1788
+      ],
+      "center_logical": [
+        1128.0,
+        790.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "PASS",
+      "tested_points": [
+        [
+          1127,
+          787
+        ],
+        [
+          1100,
+          740
+        ]
+      ],
+      "radii_logical": [
+        103.0,
+        103.5
+      ],
+      "shared_region_group": "primary_fishing_control"
+    },
+    {
+      "id": "reel_whole",
+      "label": "电子鱼轮整体（上半收轮／下半HOLD）",
+      "states": [
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        1010,
+        631,
+        1332,
+        977
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2020,
+        1262,
+        2664,
+        1954
+      ],
+      "center_logical": [
+        1171.0,
+        804.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "PASS_UPPER_ONLY",
+      "tested_points": [
+        [
+          1161,
+          759
+        ],
+        [
+          1161,
+          740
+        ]
+      ],
+      "subregions": {
+        "upper": "y < 820; qualitative user mapping, not a measured hit boundary",
+        "lower": "y >= 820; HOLD not physically tested"
+      },
+      "radii_logical": [
+        161.0,
+        173.0
+      ],
+      "shared_region_group": "primary_fishing_control"
+    },
+    {
+      "id": "pause",
+      "label": "暂停",
+      "states": [
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        1251,
+        0,
+        1364,
+        111
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2502,
+        0,
+        2728,
+        222
+      ],
+      "center_logical": [
+        1307.5,
+        55.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        56.5,
+        55.5
+      ]
+    },
+    {
+      "id": "battle_music",
+      "label": "战斗左上圆形图标（功能未测）",
+      "states": [
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        306,
+        34,
+        391,
+        124
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        612,
+        68,
+        782,
+        248
+      ],
+      "center_logical": [
+        348.5,
+        79.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        42.5,
+        45.0
+      ]
+    },
+    {
+      "id": "battle_top_icon",
+      "label": "战斗右上状态圆形图标（可点击性未测）",
+      "states": [
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        995,
+        13,
+        1060,
+        83
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1990,
+        26,
+        2120,
+        166
+      ],
+      "center_logical": [
+        1027.5,
+        48.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        32.5,
+        35.0
+      ]
+    },
+    {
+      "id": "avatar",
+      "label": "角色头像能力（可点击性未测）",
+      "states": [
+        "waiting_bite",
+        "reeling"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        249,
+        883,
+        374,
+        1009
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        498,
+        1766,
+        748,
+        2018
+      ],
+      "center_logical": [
+        311.5,
+        946.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        62.5,
+        63.0
+      ]
+    },
+    {
+      "id": "special_skill",
+      "label": "底部S技能条及圆钮",
+      "states": [
+        "reeling"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        414,
+        925,
+        1002,
+        1017
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        828,
+        1850,
+        2004,
+        2034
+      ],
+      "center_logical": [
+        708.0,
+        971.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "friend_rank",
+      "label": "好友排名",
+      "states": [
+        "result_sale",
+        "result_continue",
+        "buff_popup"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        10,
+        270,
+        113,
+        366
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        20,
+        540,
+        226,
+        732
+      ],
+      "center_logical": [
+        61.5,
+        318.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        51.5,
+        48.0
+      ]
+    },
+    {
+      "id": "ranking_tabs",
+      "label": "当天最佳／最佳排名标签（可点击性未测）",
+      "states": [
+        "result_sale",
+        "result_continue",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        14,
+        733,
+        619,
+        795
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        28,
+        1466,
+        1238,
+        1590
+      ],
+      "center_logical": [
+        316.5,
+        764.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "aquarium",
+      "label": "放入水族馆",
+      "states": [
+        "result_sale",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        883,
+        765,
+        1107,
+        910
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1766,
+        1530,
+        2214,
+        1820
+      ],
+      "center_logical": [
+        995.0,
+        837.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "shared_region_group": "result_left"
+    },
+    {
+      "id": "failure_back",
+      "label": "失败页返回",
+      "states": [
+        "failed"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        883,
+        765,
+        1107,
+        910
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1766,
+        1530,
+        2214,
+        1820
+      ],
+      "center_logical": [
+        995.0,
+        837.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "shared_region_group": "result_left"
+    },
+    {
+      "id": "sell_continue",
+      "label": "出售／继续钓鱼",
+      "states": [
+        "result_sale",
+        "result_continue",
+        "failed",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1121,
+        765,
+        1346,
+        910
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2242,
+        1530,
+        2692,
+        1820
+      ],
+      "center_logical": [
+        1233.5,
+        837.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "PASS",
+      "tested_points": [
+        [
+          1233,
+          838
+        ],
+        [
+          1306,
+          838
+        ]
+      ],
+      "shared_region_group": "result_right"
+    },
+    {
+      "id": "failure_trash",
+      "label": "失败提示垃圾桶",
+      "states": [
+        "failed"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        500,
+        807,
+        591,
+        897
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1000,
+        1614,
+        1182,
+        1794
+      ],
+      "center_logical": [
+        545.5,
+        852.0
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN",
+      "radii_logical": [
+        45.5,
+        45.0
+      ]
+    },
+    {
+      "id": "buff_confirm",
+      "label": "BUFF确认",
+      "states": [
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        524,
+        793,
+        843,
+        866
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1048,
+        1586,
+        1686,
+        1732
+      ],
+      "center_logical": [
+        683.5,
+        829.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "PASS",
+      "tested_points": [
+        [
+          683,
+          830
+        ]
+      ]
+    },
+    {
+      "id": "buff_badges",
+      "label": "BUFF状态徽标（可点击性未测）",
+      "states": [
+        "result_sale",
+        "result_continue",
+        "cast_ready",
+        "buff_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        250,
+        45,
+        369,
+        88
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        500,
+        90,
+        738,
+        176
+      ],
+      "center_logical": [
+        309.5,
+        66.5
+      ],
+      "measurement": "Conservative manually reviewed visible envelope, approximately +/-6 logical points; not a measured engine hit box.",
+      "click_behavior_status": "NOT_RUN"
+    },
+    {
+      "id": "repair_open",
+      "label": "repair_open",
+      "states": [
+        "repair_entry"
+      ],
+      "shape": "ellipse",
+      "visual_bounds_logical_xyxy": [
+        21,
+        270,
+        94,
+        334
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        42,
+        540,
+        188,
+        668
+      ],
+      "click_behavior_status": "NOT_RUN",
+      "measurement": "Screenshot visible envelope +/-6 points",
+      "absent_button_probe_status": "PASS"
+    },
+    {
+      "id": "repair_all",
+      "label": "repair_all",
+      "states": [
+        "repair_all"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        340,
+        688,
+        660,
+        761
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        680,
+        1376,
+        1320,
+        1522
+      ],
+      "click_behavior_status": "NOT_RUN",
+      "measurement": "Screenshot visible envelope +/-6 points",
+      "absent_button_probe_status": "PASS"
+    },
+    {
+      "id": "repair_confirm",
+      "label": "repair_confirm",
+      "states": [
+        "repair_done"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        562,
+        699,
+        805,
+        773
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1124,
+        1398,
+        1610,
+        1546
+      ],
+      "click_behavior_status": "NOT_RUN",
+      "measurement": "Screenshot visible envelope +/-6 points",
+      "absent_button_probe_status": "PASS"
+    },
+    {
+      "id": "repair_select",
+      "label": "repair_select",
+      "states": [
+        "repair_all"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        708,
+        688,
+        1028,
+        761
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1416,
+        1376,
+        2056,
+        1522
+      ],
+      "click_behavior_status": "NOT_RUN",
+      "measurement": "Screenshot visible envelope +/-6 points",
+      "absent_button_probe_status": "NOT_RUN"
+    },
+    {
+      "id": "repair_close",
+      "label": "repair_close",
+      "states": [
+        "repair_all"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        1090,
+        253,
+        1152,
+        308
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        2180,
+        506,
+        2304,
+        616
+      ],
+      "click_behavior_status": "NOT_RUN",
+      "measurement": "Screenshot visible envelope +/-6 points",
+      "absent_button_probe_status": "NOT_RUN"
+    }
+  ],
+  "action_points": {
+    "cast": {
+      "control": "cast_hit",
+      "point": [
+        1100,
+        740
+      ],
+      "active_state": "cast_ready"
+    },
+    "hook": {
+      "control": "cast_hit",
+      "point": [
+        1100,
+        740
+      ],
+      "active_state": "waiting_bite"
+    },
+    "reel_upper": {
+      "control": "reel_whole",
+      "point": [
+        1161,
+        740
+      ],
+      "active_state": "reeling"
+    },
+    "sell": {
+      "control": "sell_continue",
+      "point": [
+        1306,
+        838
+      ],
+      "active_state": "result_sale"
+    },
+    "continue": {
+      "control": "sell_continue",
+      "point": [
+        1306,
+        838
+      ],
+      "active_state": "result_continue"
+    },
+    "confirm_popup": {
+      "control": "buff_confirm",
+      "point": [
+        683,
+        830
+      ],
+      "active_state": "buff_popup"
+    },
+    "repair_open": {
+      "control": "repair_open",
+      "point": [
+        58,
+        295
+      ],
+      "active_state": "repair_entry"
+    },
+    "repair_all": {
+      "control": "repair_all",
+      "point": [
+        430,
+        710
+      ],
+      "active_state": "repair_all"
+    },
+    "repair_confirm": {
+      "control": "repair_confirm",
+      "point": [
+        684,
+        730
+      ],
+      "active_state": "repair_done"
+    },
+    "startup_continue": {
+      "control": "sell_continue",
+      "point": [
+        1306,
+        838
+      ],
+      "active_state": "failed"
+    }
+  },
+  "separation_guard_points": 12,
+  "checks": [
+    {
+      "action": "cast",
+      "inside_own_visible_envelope": true,
+      "other_envelopes_with_12pt_guard": [],
+      "heavy_overlap_exceptions": [
+        "reel_whole"
+      ],
+      "status": "PASS"
+    },
+    {
+      "action": "hook",
+      "inside_own_visible_envelope": true,
+      "other_envelopes_with_12pt_guard": [],
+      "heavy_overlap_exceptions": [
+        "reel_whole"
+      ],
+      "status": "PASS"
+    },
+    {
+      "action": "reel_upper",
+      "inside_own_visible_envelope": true,
+      "other_envelopes_with_12pt_guard": [],
+      "heavy_overlap_exceptions": [
+        "cast_hit"
+      ],
+      "status": "PASS"
+    },
+    {
+      "action": "sell",
+      "inside_own_visible_envelope": true,
+      "other_envelopes_with_12pt_guard": [],
+      "heavy_overlap_exceptions": [
+        "reel_whole"
+      ],
+      "status": "PASS"
+    },
+    {
+      "action": "continue",
+      "inside_own_visible_envelope": true,
+      "other_envelopes_with_12pt_guard": [],
+      "heavy_overlap_exceptions": [
+        "reel_whole"
+      ],
+      "status": "PASS"
+    },
+    {
+      "action": "confirm_popup",
+      "inside_own_visible_envelope": true,
+      "other_envelopes_with_12pt_guard": [],
+      "heavy_overlap_exceptions": [],
+      "status": "PASS"
+    },
+    {
+      "action": "repair_open",
+      "status": "PASS",
+      "scope": "static geometry and absent-button CAST test; actual repair NOT_RUN"
+    },
+    {
+      "action": "repair_all",
+      "status": "PASS",
+      "scope": "static geometry and absent-button CAST test; actual repair NOT_RUN"
+    },
+    {
+      "action": "repair_confirm",
+      "status": "PASS",
+      "scope": "static geometry and absent-button CAST test; actual repair NOT_RUN"
+    },
+    {
+      "action": "startup_continue",
+      "status": "PASS",
+      "scope": "Same Continue point; outside CAST envelope +12 points. Absent-button live probe NOT_RUN."
+    }
+  ],
+  "confirmation_no_popup_probe": {
+    "status": "PASS",
+    "before": "runs/20261102_155455_222978/before.png",
+    "after": "runs/20261102_155455_222978/after.png",
+    "observed": "Result Continue screen unchanged; no other button effect observed for one 100ms tap."
+  }
+}

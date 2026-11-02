@@ -1,0 +1,539 @@
+{
+  "schema": 1,
+  "name": "ipad_fixed_confirm_and_separated_points_20261102",
+  "logical_size": [
+    1366,
+    1024
+  ],
+  "request_timeout_seconds": 15,
+  "settings": {
+    "cycles": 1,
+    "max_elapsed_seconds": 90,
+    "initial_delay_seconds": 0,
+    "hook_wait_seconds": 9.5,
+    "hook_settle_seconds": 0,
+    "reel_pulses": 10,
+    "reel_release_seconds": 0.05,
+    "result_wait_seconds": 2,
+    "sell_to_continue_seconds": 0.6,
+    "final_wait_seconds": 0.6,
+    "next_cycle_delay_seconds": 0,
+    "confirm_to_sell_seconds": 0.6,
+    "repair_step_wait_seconds": 0.6
+  },
+  "actions": {
+    "cast": {
+      "x": 1100,
+      "y": 740,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_scope": "Separated point physically tested in runs/20261102_160020_934934: CAST, successful hook and reel presses led to CATCH/17.2cm. Monitoring heartbeat stopped the run after reel pulse 5; no uninterrupted full-recipe success is claimed."
+    },
+    "hook": {
+      "x": 1100,
+      "y": 740,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_scope": "Separated point physically tested in runs/20261102_160020_934934: CAST, successful hook and reel presses led to CATCH/17.2cm. Monitoring heartbeat stopped the run after reel pulse 5; no uninterrupted full-recipe success is claimed."
+    },
+    "reel_upper": {
+      "x": 1161,
+      "y": 740,
+      "press_seconds": 0.5,
+      "manually_verified": true,
+      "verification_scope": "Separated point physically tested in runs/20261102_160020_934934: CAST, successful hook and reel presses led to CATCH/17.2cm. Monitoring heartbeat stopped the run after reel pulse 5; no uninterrupted full-recipe success is claimed."
+    },
+    "sell": {
+      "x": 1306,
+      "y": 838,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_scope": "Separated point (1306,838) physically tested in runs/20261102_160207_312480: Sell changed to Continue; Continue returned to CAST."
+    },
+    "continue": {
+      "x": 1306,
+      "y": 838,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_scope": "Separated point (1306,838) physically tested in runs/20261102_160207_312480: Sell changed to Continue; Continue returned to CAST."
+    },
+    "confirm_popup": {
+      "x": 683,
+      "y": 830,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_scope": "(683,830) closed BUFF in runs/20261102_155148_158433. No other visible button effect in no-popup Continue screen (runs/20261102_155455_222978) and Sell screen (runs/20261102_160207_312480)."
+    },
+    "repair_open": {
+      "x": 58,
+      "y": 295,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_note": "Coordinates reviewed against supplied screenshots and one absent-button CAST probe PASS; actual repair effect NOT_RUN"
+    },
+    "repair_all": {
+      "x": 430,
+      "y": 710,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_note": "Coordinates reviewed against supplied screenshots and one absent-button CAST probe PASS; actual repair effect NOT_RUN"
+    },
+    "repair_confirm": {
+      "x": 684,
+      "y": 730,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_note": "Coordinates reviewed against supplied screenshots and one absent-button CAST probe PASS; actual repair effect NOT_RUN"
+    },
+    "startup_continue": {
+      "x": 1306,
+      "y": 838,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_scope": "Separated point (1306,838) physically tested in runs/20261102_160207_312480: Sell changed to Continue; Continue returned to CAST.",
+      "verification_note": "Same measured Continue point (1306,838), outside CAST visible envelope +12pt. Failure Continue previously observed; absent-button CAST startup probe NOT_RUN."
+    }
+  },
+  "reference_notes": {
+    "execution_ready": true,
+    "coordinates": "Separated points inside reviewed visual envelopes; 12-point exclusion margin around non-exempt other envelopes. Heavy overlap means >=80% of the smaller rectangle. Full button_map.json and annotated atlas are saved locally.",
+    "reel_mapping": "Upper half retrieves; lower half holds and is not used in this recipe.",
+    "android_acrs_raw": {
+      "duration": 500,
+      "delay": 3,
+      "count": 6,
+      "units_verified": false
+    },
+    "requested_reel_count": "User requested 10. Fixed mode attempts all 10 unless a bounded stop/error interrupts it; no early catch detection.",
+    "timing": "100ms Continue/CAST with zero added delay previously measured 0.468-0.522s request gap and 13.7m followed by four 13.0m casts. Hook wait remains 9.5s after CAST API return. New separated points are tested; repeated transition timing at the new points is not yet measured.",
+    "first_cast": "Start on CAST with popups closed. First power bar can already be cycling; first cast distance is uncontrolled. Immediate Continue-to-CAST applies between cycles. No other input is scheduled between CAST and HIT.",
+    "measured_reel_timing": "0.5s native press plus 0.05s extra pause produced mean API duration 0.822907s and mean dispatch interval 0.933785s. RPC overhead is additional and may vary.",
+    "sale": "Sell/Continue are fixed timed presses at calibrated points, with no label recognition. Permission for actual scope must already exist.",
+    "popups": "Always tap the calibrated BUFF confirmation point after result_wait, whether a popup exists or not; wait 0.6s, then Sell. No recognition and no general guarantee for different dialogs or a battle that exceeds the fixed schedule.",
+    "native_behavior_validation": "Previous points completed five consecutive catches at 100ms CAST/Continue and zero added gap (runs/20261102_154654_815312). Current separated points physically validated in two segments: new CAST/HIT/reel reached a 17.2cm catch; result tail confirm/Sell/Continue returned to CAST. Full uninterrupted updated recipe not yet tested.",
+    "energy": "User manually enables unlimited-energy pack; script never manages energy.",
+    "repair": "Unconditional before CAST. Adds Continue-to-CAST delay, minimum distance timing NOT_RUN. Actual repair NOT_RUN.",
+    "startup": "One startup_continue tap, 0.6s settle, then existing repair/CAST schedule. Compatible by visible geometry with failure/Continue and CAST. Not for waiting/fighting/shop screens."
+  },
+  "button_geometry": {
+    "logical_size": [
+      1366,
+      1024
+    ],
+    "separation_guard_points": 12,
+    "controls": [
+      {
+        "id": "mail",
+        "bounds": [
+          767,
+          0,
+          860,
+          90
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "shop",
+        "bounds": [
+          864,
+          0,
+          953,
+          90
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "missions",
+        "bounds": [
+          960,
+          0,
+          1045,
+          90
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "character",
+        "bounds": [
+          1075,
+          0,
+          1153,
+          90
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "menu",
+        "bounds": [
+          1180,
+          0,
+          1265,
+          90
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "back_top",
+        "bounds": [
+          1270,
+          0,
+          1365,
+          90
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "bait",
+        "bounds": [
+          7,
+          98,
+          105,
+          217
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "rod",
+        "bounds": [
+          108,
+          98,
+          208,
+          217
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "float",
+        "bounds": [
+          209,
+          98,
+          311,
+          217
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "reel_equipment",
+        "bounds": [
+          313,
+          98,
+          415,
+          217
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "equipment_previous",
+        "bounds": [
+          422,
+          99,
+          458,
+          214
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "equipment_next",
+        "bounds": [
+          1112,
+          100,
+          1149,
+          211
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "species",
+        "bounds": [
+          1157,
+          98,
+          1258,
+          217
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "lunchbox",
+        "bounds": [
+          1261,
+          98,
+          1365,
+          217
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "skill_idle_1",
+        "bounds": [
+          5,
+          423,
+          119,
+          534
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "skill_idle_2",
+        "bounds": [
+          5,
+          540,
+          119,
+          651
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "skill_idle_3",
+        "bounds": [
+          5,
+          652,
+          119,
+          765
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "skill_fight_1",
+        "bounds": [
+          0,
+          338,
+          112,
+          457
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "skill_fight_2",
+        "bounds": [
+          0,
+          486,
+          112,
+          606
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "skill_fight_3",
+        "bounds": [
+          0,
+          633,
+          112,
+          753
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "cast_hit",
+        "bounds": [
+          1025,
+          687,
+          1231,
+          894
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "reel_whole",
+        "bounds": [
+          1010,
+          631,
+          1332,
+          977
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "pause",
+        "bounds": [
+          1251,
+          0,
+          1364,
+          111
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "battle_music",
+        "bounds": [
+          306,
+          34,
+          391,
+          124
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "battle_top_icon",
+        "bounds": [
+          995,
+          13,
+          1060,
+          83
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "avatar",
+        "bounds": [
+          249,
+          883,
+          374,
+          1009
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "special_skill",
+        "bounds": [
+          414,
+          925,
+          1002,
+          1017
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "friend_rank",
+        "bounds": [
+          10,
+          270,
+          113,
+          366
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "ranking_tabs",
+        "bounds": [
+          14,
+          733,
+          619,
+          795
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "aquarium",
+        "bounds": [
+          883,
+          765,
+          1107,
+          910
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "failure_back",
+        "bounds": [
+          883,
+          765,
+          1107,
+          910
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "sell_continue",
+        "bounds": [
+          1121,
+          765,
+          1346,
+          910
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "failure_trash",
+        "bounds": [
+          500,
+          807,
+          591,
+          897
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "buff_confirm",
+        "bounds": [
+          524,
+          793,
+          843,
+          866
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "buff_badges",
+        "bounds": [
+          250,
+          45,
+          369,
+          88
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "repair_open",
+        "bounds": [
+          21,
+          270,
+          94,
+          334
+        ],
+        "shape": "ellipse"
+      },
+      {
+        "id": "repair_all",
+        "bounds": [
+          340,
+          688,
+          660,
+          761
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "repair_confirm",
+        "bounds": [
+          562,
+          699,
+          805,
+          773
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "repair_select",
+        "bounds": [
+          708,
+          688,
+          1028,
+          761
+        ],
+        "shape": "rounded_rect"
+      },
+      {
+        "id": "repair_close",
+        "bounds": [
+          1090,
+          253,
+          1152,
+          308
+        ],
+        "shape": "rounded_rect"
+      }
+    ],
+    "action_controls": {
+      "cast": "cast_hit",
+      "hook": "cast_hit",
+      "reel_upper": "reel_whole",
+      "sell": "sell_continue",
+      "continue": "sell_continue",
+      "confirm_popup": "buff_confirm",
+      "repair_open": "repair_open",
+      "repair_all": "repair_all",
+      "repair_confirm": "repair_confirm",
+      "startup_continue": "sell_continue"
+    }
+  }
+}
