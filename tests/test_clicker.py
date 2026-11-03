@@ -110,6 +110,94 @@ class TestClicker(unittest.TestCase):
         self.assertAlmostEqual(result["nominal_seconds_excluding_rpc"], 17.3)
         self.assertFalse(result["screen_recognition"])
 
+    def test_batch_mode_executes_remainder_with_one_check_per_request(self):
+        self.payload['settings'].update(reel_batch_size=3, reel_pulses=8,
+                                        reel_batch_gap_seconds=.05)
+        self.save()
+        clock = Clock()
+
+        class BatchDriver(Driver):
+            def execute(self, command, params=None):
+                self.calls.append((command, params))
+                actions = params['actions'][0]['actions']
+                self.touches += sum(a['type'] == 'pointerDown' for a in actions)
+                self.clock.now += sum(a.get('duration', 0) for a in actions) / 1000
+
+        driver = BatchDriver(clock)
+        result = self.execute(driver, clock)
+        self.assertEqual((result['status'], result['cycles_api_completed']), ('PASS', 1))
+        self.assertEqual(result['action_api_returns'], 6)  # CAST, HIT, 3 groups, sell
+        self.assertEqual(driver.touches, 11)  # 8 reel contacts + CAST/HIT/sell
+        self.assertEqual(driver.bounds_reads, 6)
+        self.assertEqual(sum(name == 'mobile: activeAppInfo' for name, _ in driver.calls), 6)
+        records = [json.loads(p.read_text()) for p in sorted(self.directory.glob('*_reel_upper.json'))]
+        self.assertEqual([r['count'] for r in records], [3, 3, 2])
+        self.assertTrue(all(r['api_returned'] for r in records))
+        self.assertFalse(result['game_effect_verified'])
+
+    def test_batch_preview_counts_contacts_separately_from_requests(self):
+        self.payload['settings'].update(reel_batch_size=3, reel_pulses=8)
+        self.save()
+        result, config, connection = self.run_cli(self.args())
+        connection.assert_not_called()
+        self.assertEqual(result['planned_touch_count'], 11)
+        self.assertEqual(result['planned_input_requests'], 6)
+
+    def test_whole_round_uses_single_request_and_duration_aware_timeout(self):
+        self.payload['settings'].update(loggroup=False, reel_pulses=25,
+                                        reel_batch_gap_seconds=.05)
+        self.payload['actions']['reel_upper']['press_seconds'] = .55
+        self.save()
+        clock = Clock()
+
+        class WholeDriver(Driver):
+            def execute(self, command, params=None):
+                self.calls.append((command, params))
+                actions = params['actions'][0]['actions']
+                self.touches += sum(a['type'] == 'pointerDown' for a in actions)
+                self.clock.now += sum(a.get('duration', 0) for a in actions) / 1000
+
+        driver = WholeDriver(clock)
+        result, _, connection = self.run_cli(
+            self.args(execute=True, armed=True, safe_target_confirmed=True), driver, clock)
+        self.assertEqual(result['status'], 'PASS')
+        self.assertEqual(result['action_api_returns'], 4)  # CAST, HIT, all reel presses, sell
+        self.assertEqual(driver.bounds_reads, 4)
+        self.assertEqual(driver.touches, 28)
+        self.assertEqual(sum(name == 'actions' for name, _ in driver.calls), 1)
+        self.assertAlmostEqual(connection.call_args.kwargs['request_timeout_seconds'],24.95)
+
+    def test_merged_hit_runs_once_without_native_hook_and_has_complete_preview(self):
+        self.payload['settings'].update(loggroup=False, merge_hit_reel=True,
+                                        reel_pulses=20, hit_to_reel_seconds=.05)
+        self.payload['actions']['reel_upper']['press_seconds'] = .55
+        self.save()
+        preview, _, _ = self.run_cli(self.args())
+        self.assertEqual(preview['planned_touch_count'],23)  # CAST, HIT, 20 reels, sell
+        self.assertEqual(preview['planned_input_requests'],3)
+        clock = Clock()
+
+        class MergedDriver(Driver):
+            def execute(self, command, params=None):
+                self.calls.append((command, params))
+                actions = params['actions'][0]['actions']
+                self.touches += sum(a['type'] == 'pointerDown' for a in actions)
+                self.clock.now += sum(a.get('duration', 0) for a in actions) / 1000
+
+        driver = MergedDriver(clock)
+        result, _, connection = self.run_cli(
+            self.args(execute=True, armed=True, safe_target_confirmed=True), driver, clock)
+        self.assertEqual(result['status'],'PASS')
+        self.assertEqual(result['action_api_returns'],3)
+        self.assertEqual(driver.bounds_reads,3)
+        self.assertEqual(driver.touches,23)
+        self.assertEqual(sum(name == 'mobile: touchAndHold' for name, _ in driver.calls),2)
+        self.assertAlmostEqual(connection.call_args.kwargs['request_timeout_seconds'],22.1)
+        event=json.loads(next(self.directory.glob('*_reel_upper.json')).read_text())
+        self.assertEqual(event['kind'],'hook_batch')
+        self.assertEqual(event['hook']['press_seconds'],.1)
+        self.assertEqual(event['hit_to_reel_seconds'],.05)
+
     def test_recipe_has_exact_fixed_order_and_ten_upper_reel_pulses(self):
         steps = build_steps(load_recipe(self.path))
         names = [step.name for step in steps if step.kind == "touch"]

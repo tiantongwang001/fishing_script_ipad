@@ -80,6 +80,57 @@ def press(driver, x: int, y: int, seconds: float = 0.5, *,
     driver.execute_script("mobile: touchAndHold", {"x": x, "y": y, "duration": seconds})
 
 
+def press_batch(driver, x: int, y: int, seconds: float, count: int,
+                gap_seconds: float, *, expected_window=None, before_dispatch=None, whole_round=False,
+                initial_press=None, initial_gap_seconds=0) -> None:
+    """One bounded W3C request; full-round mode explicitly allows up to 120 contacts."""
+    validate_press(x, y, seconds)
+    if not isinstance(whole_round, bool):
+        raise ValueError("whole_round must be a boolean")
+    maximum = 120 if whole_round else 3
+    if isinstance(count, bool) or not isinstance(count, int) or not 1 <= count <= maximum:
+        raise ValueError(f"Batch count must be an integer between 1 and {maximum}")
+    _duration(gap_seconds, .001, 1, "Batch release gap")
+    points = [(x, y)]
+    if initial_press is not None:
+        if not isinstance(initial_press, (tuple, list)) or len(initial_press) != 3:
+            raise ValueError("initial_press requires x, y, seconds")
+        validate_press(*initial_press)
+        _duration(initial_gap_seconds, 0, 1, "HIT-to-reel gap")
+        points.append(initial_press[:2])
+    _validate_bounds(driver, points, expected_window)
+    from selenium.webdriver.common.actions import interaction
+    from selenium.webdriver.common.actions.action_builder import ActionBuilder
+    from selenium.webdriver.common.actions.pointer_input import PointerInput
+    finger = PointerInput(interaction.POINTER_TOUCH, "reel-finger")
+    action = ActionBuilder(driver, mouse=finger)
+    if initial_press is not None:
+        hx, hy, hold = initial_press
+        finger.create_pointer_move(duration=0, x=hx, y=hy, origin="viewport")
+        finger.create_pointer_down(button=0)
+        finger.add_action({"type": "pause", "duration": round(hold * 1000)})
+        finger.create_pointer_up(button=0)
+        if initial_gap_seconds:
+            finger.add_action({"type": "pause", "duration": round(initial_gap_seconds * 1000)})
+    for index in range(count):
+        finger.create_pointer_move(duration=0, x=x, y=y, origin="viewport")
+        finger.create_pointer_down(button=0)
+        finger.add_action({"type": "pause", "duration": round(seconds * 1000)})
+        finger.create_pointer_up(button=0)
+        if index < count - 1:
+            finger.add_action({"type": "pause", "duration": round(gap_seconds * 1000)})
+    if before_dispatch is not None:
+        before_dispatch()
+    try:
+        action.perform()
+    except BaseException as exc:
+        try:
+            action.clear_actions()
+        except Exception as cleanup_error:
+            exc.add_note(f"Best-effort pointer release failed: {cleanup_error}")
+        raise
+
+
 def hold(driver, x: int, y: int, seconds: float = 0.8) -> None:
     """Send one long press, restricted to 0.5–5 seconds for initial probes."""
     validate_hold(x, y, seconds)

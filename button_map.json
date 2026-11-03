@@ -26,7 +26,8 @@
     "buff_popup": "runs/20261102_155148_158433/before.png",
     "repair_entry": "runs/repair_reference/repair_entry.png",
     "repair_all": "runs/repair_reference/repair_all.png",
-    "repair_done": "runs/repair_reference/repair_done.png"
+    "repair_done": "runs/repair_reference/repair_done.png",
+    "competition_popup": "runs/competition_reference/competition_popup.png"
   },
   "controls": [
     {
@@ -1194,6 +1195,29 @@
       "click_behavior_status": "NOT_RUN",
       "measurement": "Screenshot visible envelope +/-6 points",
       "absent_button_probe_status": "NOT_RUN"
+    },
+    {
+      "id": "competition_confirm",
+      "label": "大赛确认",
+      "states": [
+        "competition_popup"
+      ],
+      "shape": "rounded_rect",
+      "visual_bounds_logical_xyxy": [
+        525,
+        724,
+        841,
+        793
+      ],
+      "visual_bounds_native_pixels_xyxy": [
+        1050,
+        1448,
+        1682,
+        1586
+      ],
+      "click_behavior_status": "NOT_RUN",
+      "absent_button_probe_status": "NOT_RUN",
+      "measurement": "User screenshot; conservative visible bounds, not engine hitbox; selected point (824,777) avoids other mapped buttons plus 12-point guard."
     }
   ],
   "action_points": {
@@ -1276,6 +1300,14 @@
         838
       ],
       "active_state": "failed"
+    },
+    "confirm_competition": {
+      "control": "competition_confirm",
+      "point": [
+        824,
+        777
+      ],
+      "active_state": "competition_popup"
     }
   },
   "separation_guard_points": 12,

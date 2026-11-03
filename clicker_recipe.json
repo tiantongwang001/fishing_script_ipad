@@ -92,6 +92,13 @@
       "manually_verified": true,
       "verification_scope": "Separated point (1306,838) physically tested in runs/20261102_160207_312480: Sell changed to Continue; Continue returned to CAST.",
       "verification_note": "Same measured Continue point (1306,838), outside CAST visible envelope +12pt. Failure Continue previously observed; absent-button CAST startup probe NOT_RUN."
+    },
+    "confirm_competition": {
+      "x": 824,
+      "y": 777,
+      "press_seconds": 0.1,
+      "manually_verified": true,
+      "verification_scope": "User-supplied screenshot coordinate review only; live popup dismissal and absent-popup effects NOT_RUN. Point avoids other mapped controls including repair_confirm/select and buff_confirm."
     }
   },
   "reference_notes": {
@@ -521,6 +528,20 @@
           308
         ],
         "shape": "rounded_rect"
+      },
+      {
+        "id": "competition_confirm",
+        "bounds": [
+          525,
+          724,
+          841,
+          793
+        ],
+        "shape": "rounded_rect",
+        "separation_exempt_actions": [
+          "repair_confirm"
+        ],
+        "separation_exemption_reason": "Existing repair-confirm point overlaps this result-only popup. Preserve existing repair point; repair is only scheduled after Continue, never as a result-popup action. Competition action itself must avoid all other controls."
       }
     ],
     "action_controls": {
@@ -533,7 +554,8 @@
       "repair_open": "repair_open",
       "repair_all": "repair_all",
       "repair_confirm": "repair_confirm",
-      "startup_continue": "sell_continue"
+      "startup_continue": "sell_continue",
+      "confirm_competition": "competition_confirm"
     }
   }
 }

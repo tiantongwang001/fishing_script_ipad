@@ -48,10 +48,15 @@ class TestLauncher(unittest.TestCase):
                         patch.object(run_fishing, "REEL_PULSES", count):
                     recipe = load_recipe(run_fishing.prepare_default_recipe())
                 pulses = [s for s in build_steps(recipe) if s.name == "reel_upper"]
-                self.assertEqual(len(pulses), count * run_fishing.MAX_ROUNDS)
+                self.assertEqual(sum(s.count for s in pulses), count * run_fishing.MAX_ROUNDS)
                 self.assertEqual(recipe.settings.cycles, run_fishing.MAX_ROUNDS)
                 self.assertEqual(recipe.settings.max_elapsed_seconds, run_fishing.MAX_RUN_SECONDS)
-                self.assertTrue(all(s.seconds == run_fishing.REEL_HOLD_SECONDS for s in pulses))
+                self.assertEqual(recipe.settings.reel_batch_size, run_fishing.REEL_BATCH_SIZE)
+                for step in pulses:
+                    expected = step.count * run_fishing.REEL_HOLD_SECONDS + (step.count - 1) * recipe.settings.reel_batch_gap_seconds
+                    if step.kind == "hook_batch":
+                        expected += recipe.payload["actions"]["hook"]["press_seconds"] + run_fishing.HIT_TO_REEL_SECONDS
+                    self.assertAlmostEqual(step.seconds, expected)
 
     def test_invalid_count_rejected_before_writing(self):
         for count in (True, 0, 121, 2.5):
@@ -67,10 +72,11 @@ class TestLauncher(unittest.TestCase):
                 (run_fishing.PROJECT_ROOT / "clicker_recipe.json").read_bytes())
             for seconds in (0, 0.0125, 0.05):
                 with patch.object(run_fishing, "PROJECT_ROOT", root), \
-                        patch.object(run_fishing, "REEL_RELEASE_SECONDS", seconds):
+                        patch.object(run_fishing, "REEL_RELEASE_SECONDS", seconds), \
+                        patch.object(run_fishing, "loggroup", True):
                     recipe = load_recipe(run_fishing.prepare_default_recipe())
                 waits = [s for s in build_steps(recipe) if s.name == "reel_release"]
-                self.assertEqual(len(waits), run_fishing.REEL_PULSES * run_fishing.MAX_ROUNDS)
+                self.assertEqual(len(waits), ((run_fishing.REEL_PULSES + run_fishing.REEL_BATCH_SIZE - 1) // run_fishing.REEL_BATCH_SIZE) * run_fishing.MAX_ROUNDS)
                 self.assertTrue(all(s.seconds == seconds for s in waits))
             with patch.object(run_fishing, "PROJECT_ROOT", root), \
                     patch.object(run_fishing, "REEL_RELEASE_SECONDS", -0.01):

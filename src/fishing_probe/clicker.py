@@ -19,12 +19,12 @@ from pathlib import Path
 from fishing_probe.cli import make_run_dir, require_active_game, write_json
 from fishing_probe.config import load
 from fishing_probe.connection import connect
-from fishing_probe.gestures import press, validate_press
+from fishing_probe.gestures import press, press_batch, validate_press
 
 
 ACTION_NAMES = frozenset({"cast", "hook", "reel_upper", "sell", "continue"})
 REPAIR_ACTION_NAMES = ("repair_open", "repair_all", "repair_confirm")
-OPTIONAL_ACTION_NAMES = frozenset({"confirm_popup", "startup_continue", *REPAIR_ACTION_NAMES})
+OPTIONAL_ACTION_NAMES = frozenset({"confirm_popup", "confirm_competition", "startup_continue", *REPAIR_ACTION_NAMES})
 
 
 def _number(value, minimum, maximum, name):
@@ -43,6 +43,13 @@ class ClickerSettings:
     hook_settle_seconds: float = 0
     reel_pulses: int = 10
     reel_release_seconds: float = 0.05
+    merge_hit_reel: bool = False
+    hit_to_reel_seconds: float = .05
+    loggroup: bool = True
+    competetion: bool = False
+    competition_to_buff_seconds: float = 0.6
+    reel_batch_size: int = 1
+    reel_batch_gap_seconds: float = 0.05
     result_wait_seconds: float = 2
     confirm_to_sell_seconds: float = 0.6
     sell_to_continue_seconds: float = 0.6
@@ -52,6 +59,14 @@ class ClickerSettings:
     continue_to_cast_seconds: float = 0
 
     def __post_init__(self):
+        for name in ("loggroup", "competetion", "merge_hit_reel"):
+            if not isinstance(getattr(self, name), bool):
+                raise ValueError(f"{name} must be a boolean")
+        _number(self.hit_to_reel_seconds, 0, 1, "hit_to_reel_seconds")
+        _number(self.competition_to_buff_seconds, 0, 60, "competition_to_buff_seconds")
+        if isinstance(self.reel_batch_size, bool) or not isinstance(self.reel_batch_size, int) or not 1 <= self.reel_batch_size <= 3:
+            raise ValueError("reel_batch_size must be an integer between 1 and 3")
+        _number(self.reel_batch_gap_seconds, .001, 1, "reel_batch_gap_seconds")
         for name, maximum in (("cycles", 1000), ("reel_pulses", 120)):
             value = getattr(self, name)
             if isinstance(value, bool) or not isinstance(value, int) or not 1 <= value <= maximum:
@@ -81,6 +96,7 @@ class Step:
     seconds: float
     cycle: int
     pulse: int | None = None
+    count: int = 1
 
 
 def load_recipe(path: str | Path) -> Recipe:
@@ -99,7 +115,9 @@ def load_recipe(path: str | Path) -> Recipe:
     actions = payload.get("actions")
     if (not isinstance(actions, dict) or not ACTION_NAMES <= set(actions)
             or set(actions) - ACTION_NAMES - OPTIONAL_ACTION_NAMES):
-        raise ValueError("Recipe requires cast, hook, reel_upper, sell, continue; optional actions are confirm_popup, startup_continue and the complete repair sequence")
+        raise ValueError("Recipe requires cast, hook, reel_upper, sell, continue; optional actions are confirm_popup, confirm_competition, startup_continue and the complete repair sequence")
+    if settings.competetion and "confirm_competition" not in actions:
+        raise ValueError("competetion=True requires confirm_competition action")
     repair_present = set(actions) & set(REPAIR_ACTION_NAMES)
     if repair_present and repair_present != set(REPAIR_ACTION_NAMES):
         raise ValueError("Repair sequence requires all three repair actions")
@@ -169,7 +187,7 @@ def geometry_issues(recipe: Recipe) -> list[str]:
                 if rx <= 0 or ry <= 0 or ((x-(b[0]+b[2])/2)/rx)**2 + ((y-(b[1]+b[3])/2)/ry)**2 > 1:
                     issues.append(f"Action {name}: point outside the inset control ellipse")
             for other_id, other in by_id.items():
-                if other_id == mapping[name]:
+                if other_id == mapping[name] or name in other.get("separation_exempt_actions", []):
                     continue
                 q = other["bounds"]
                 overlap = max(0,min(b[2],q[2])-max(b[0],q[0])) * max(0,min(b[3],q[3])-max(b[1],q[1]))
@@ -205,12 +223,30 @@ def build_steps(recipe: Recipe) -> tuple[Step, ...]:
         wait("continue_to_cast", settings.continue_to_cast_seconds)
         touch("cast")
         wait("wait_before_hook", settings.hook_wait_seconds)
-        touch("hook")
-        wait("hook_settle", settings.hook_settle_seconds)
-        for pulse_number in range(1, settings.reel_pulses + 1):
-            touch("reel_upper", pulse_number)
-            wait("reel_release", settings.reel_release_seconds)
+        if not settings.merge_hit_reel:
+            touch("hook")
+            wait("hook_settle", settings.hook_settle_seconds)
+        group_size = settings.reel_batch_size if settings.loggroup else settings.reel_pulses
+        for pulse_number in range(1, settings.reel_pulses + 1, group_size):
+            count = min(group_size, settings.reel_pulses - pulse_number + 1)
+            merged = settings.merge_hit_reel and pulse_number == 1
+            if merged or not settings.loggroup or settings.reel_batch_size > 1:
+                hold_seconds = round(recipe.payload["actions"]["reel_upper"]["press_seconds"] * 1000) / 1000
+                gap_seconds = round(settings.reel_batch_gap_seconds * 1000) / 1000
+                duration = count * hold_seconds + (count - 1) * gap_seconds
+                if merged:
+                    duration += round(recipe.payload["actions"]["hook"]["press_seconds"] * 1000) / 1000
+                    duration += round(settings.hit_to_reel_seconds * 1000) / 1000
+                steps.append(Step("hook_batch" if merged else "batch", "reel_upper", duration,
+                                  cycle, pulse_number, count))
+            else:
+                touch("reel_upper", pulse_number)
+            if settings.loggroup:
+                wait("reel_release", settings.reel_release_seconds)
         wait("result_wait", settings.result_wait_seconds)
+        if settings.competetion:
+            touch("confirm_competition")
+            wait("competition_to_buff", settings.competition_to_buff_seconds)
         if "confirm_popup" in recipe.payload["actions"]:
             # A user-approved fixed result-screen tap, independent of images.
             # Never placed between CAST and HIT or within the reel sequence.
@@ -341,7 +377,9 @@ def _execute(recipe: Recipe, directory: Path) -> dict:
     original_error = None
     sequence = 0
     try:
-        driver = connect(cfg, request_timeout_seconds=recipe.request_timeout_seconds)
+        longest_batch = max((step.seconds for step in build_steps(recipe) if step.kind in ("batch", "hook_batch")), default=0)
+        request_timeout = max(recipe.request_timeout_seconds, longest_batch + 10)
+        driver = connect(cfg, request_timeout_seconds=request_timeout)
         if not driver.session_id:
             raise RuntimeError("Appium did not return a session identifier")
         driver.execute_script("mobile: launchApp", {"bundleId": cfg.game_bundle_id})
@@ -365,9 +403,20 @@ def _execute(recipe: Recipe, directory: Path) -> dict:
 
             try:
                 require_active_game(driver, cfg.game_bundle_id)
-                press(driver, target["x"], target["y"], step.seconds,
-                      expected_window={"width": recipe.logical_size[0], "height": recipe.logical_size[1]},
-                      before_dispatch=before_dispatch)
+                kwargs = {"expected_window": {"width": recipe.logical_size[0], "height": recipe.logical_size[1]},
+                          "before_dispatch": before_dispatch}
+                if step.kind in ("batch", "hook_batch"):
+                    if step.kind == "hook_batch":
+                        hook = recipe.payload["actions"]["hook"]
+                        kwargs["initial_press"] = (hook["x"], hook["y"], hook["press_seconds"])
+                        kwargs["initial_gap_seconds"] = recipe.settings.hit_to_reel_seconds
+                        event["hook"] = dict(hook)
+                        event["hit_to_reel_seconds"] = recipe.settings.hit_to_reel_seconds
+                    press_batch(driver, target["x"], target["y"], target["press_seconds"],
+                                step.count, recipe.settings.reel_batch_gap_seconds,
+                                whole_round=not recipe.settings.loggroup, **kwargs)
+                else:
+                    press(driver, target["x"], target["y"], step.seconds, **kwargs)
                 event["api_returned"] = True
             except BaseException as exc:
                 event["error"] = f"{type(exc).__name__}: {exc}"
@@ -419,14 +468,17 @@ def run_from_args(args) -> dict:
             "ready_with_existing_user_authorization": not issues, "missing_calibration": issues,
             "logical_size": recipe.logical_size, "settings": asdict(recipe.settings),
             "actions": recipe.payload["actions"], "nominal_seconds_excluding_rpc": nominal_seconds,
-            "planned_touch_count": sum(step.kind == "touch" for step in steps),
+            "planned_touch_count": sum(step.count + (step.kind == "hook_batch") for step in steps if step.kind != "wait"),
+            "planned_input_requests": sum(step.kind != "wait" for step in steps),
             "deadline_can_truncate_nominal_schedule": nominal_seconds > recipe.settings.max_elapsed_seconds,
             "screen_recognition": False, "game_effect_verified": False,
             "notes": [
+                "merge_hit_reel submits HIT and the first reel batch in one request; hit_to_reel_seconds replaces the host hook_settle wait. count is reel contacts only; hook_batch adds one HIT contact.",
                 "With startup_continue configured, start on Failure/Continue or CAST with popups closed; otherwise start on CAST.",
                 "Exactly the configured reel pulse count is attempted, even after an unnoticed early catch.",
                 "Missed bites, results and unknown popups are not detected. If configured, confirm_popup is always tapped after result_wait, whether a popup exists or not.",
-                "Waits occur after preceding API returns. RPC overhead increases actual gaps and cycle time.",
+                "Host waits occur after preceding API returns. W3C batch internal gaps are device-scheduled; group boundaries still include RPC overhead.",
+                "loggroup=True uses batches of up to three presses; False submits all reel presses at once. Checks/logging remain before and after the submitted sequence; cancellation cannot interrupt its individual contacts. action_api_returns counts requests, not contacts.",
                 "continue_to_cast is a total target since Continue returned: elapsed repair/preparation time is subtracted. Preview sums its full target conservatively; actual remaining wait is logged.",
                 "initial_delay applies once; next_cycle_delay applies between rounds; final_wait applies only after the last round.",
                 "Execution flags record already obtained permission; they do not grant new permission.",

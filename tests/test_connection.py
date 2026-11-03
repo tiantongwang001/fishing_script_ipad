@@ -36,3 +36,31 @@ class TestConnection(unittest.TestCase):
         with self.assertRaises(ValueError):
             connect(Config(udid="measured-device", wda_mode="preinstalled"))
         remote.assert_not_called()
+
+    @patch("fishing_probe.connection.webdriver.Remote")
+    def test_session_has_separate_budget_then_restores_action_timeout(self, remote):
+        captured = []
+        def creating(*args, **kwargs):
+            captured.append(kwargs['client_config'].timeout)
+            return object()
+        remote.side_effect = creating
+        connect(Config(udid='synthetic'), request_timeout_seconds=22.1)
+        self.assertEqual(captured, [180])
+        config = remote.call_args.kwargs['client_config']
+        self.assertEqual(config.timeout, 22.1)
+        self.assertEqual(config.init_args_for_pool_manager['init_args_for_pool_manager']['retries'], False)
+
+    @patch("fishing_probe.connection.webdriver.Remote")
+    def test_session_error_is_not_retried(self, remote):
+        remote.side_effect = TimeoutError('WDA startup')
+        with self.assertRaises(TimeoutError):
+            connect(Config(udid='synthetic'), request_timeout_seconds=22.1)
+        remote.assert_called_once()
+
+    @patch("fishing_probe.connection.webdriver.Remote")
+    def test_startup_timeout_is_bounded(self, remote):
+        for value in (0, 301, True, float('inf'), float('nan'), '180'):
+            with self.assertRaises(ValueError):
+                connect(Config(udid='synthetic'), request_timeout_seconds=22.1,
+                        session_timeout_seconds=value)
+        remote.assert_not_called()
